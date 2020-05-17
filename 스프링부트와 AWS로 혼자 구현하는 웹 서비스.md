@@ -86,6 +86,7 @@ sourceCompatibility = 1.8
 // 각종 의존성들을 어떤 원격 저장소에서 받을지를 정한다. - 3
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 // 의존성 코드 - 4
