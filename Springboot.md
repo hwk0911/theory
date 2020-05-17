@@ -38,13 +38,65 @@ Spring-boot 1.5.x 의 지원이 2019년 8월 1일 중단된다.
      통합 테스트를 실행한다. 확인 된 패키지를 로컬 저장소에 설치 한 후 설치된 패키지를 원격 저장소에 배치한다.   
       
 
-### 주로 사용되는 의존성 
-* 'org.springframework.boot:spring-boot-starter-data-web'
-* 'org.projectlombok:lombok'
-* 'org.springframework.boot:spring-boot-starter-data-jpa'
-* 'com.h2database:h2'
-* 'org.springframework.boot:spring-boot-starter-mustache'
-* 'org.springframework.boot:spring-boot-starter-test'
+# 이동욱 - 스프링 부트와 AWS로 혼자 구현하는 웹 서비스 개념 정리  
+## 개발 환경
+* Java 8 (JDK 1.8)
+* Gradle 4.8 ~ Gradle 4.10.2
+* IntelliJ Community  
+* Visual Studio Code  
+ * IntelliJ Community 버전의 경우, HTML, CSS, JS에 대한 지원이 없으므로, 이들에 대한 개발을 하기 위함이다.
 
-#### 1. org.springframework.boot:spring-boot-starter-data-web
+### Chapter 1. 인텔리제이로 스프링 부트 시작하기  
+많은 IT 회사에서 IntelliJ Ultimate를 공식 IDE로 채용한다.  
+하지만 무료버전인 Community 버전에서도, Springboot를 개발하는데 크게 어려움이 없다. 이유는 다음과 같다.   
+   
+* 자바 개발에 대한 모든 기능 지원
+* Maven, Gradle과 같은 빌드 도구 기능 지원
+* 깃 & 깃허브와 같은 VCS(버전 관리 시스템) 기능 지원
+* 스프링 부트의 경우 톰캣과 같은 별도의 외장 서버 없이 실행 가능  
+
+프로젝트는 Gradle로 생성하며, 이 후 Gradle -> Spring boot project로 변경하여 개발한다.  
+
+#### build.gradle
+``` gradle
+// 이 프로젝트의 의존성 관리를 위한 코드. - 1
+buildscript { 
+    ext {
+        springBootVersion = '2.1.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+// 위에 선언한 플러그인의 의존성들을 적용할 것이닞를 결정하는 코드 - 2
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.cafecoder.book'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+// 각종 의존성들을 어떤 원격 저장소에서 받을지를 정한다. - 3
+repositories {
+    mavenCentral()
+}
+
+// 의존성 코드 - 4
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.projectlombok:lombok')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.h2database:h2')
+    compile('org.springframework.boot:spring-boot-starter-mustache')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+```
 
